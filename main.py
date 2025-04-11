@@ -24,13 +24,23 @@ class App(ctk.CTk):
         self.menu = tk.Menu()
         self.configure(menu=self.menu)
         self.menu.add_command(label="Save", command=self.save_colors)
-        self.menu.add_command(label="Return colors")
+        self.menu.add_command(label="Return colors", command=self.return_colors)
 
     def save_colors(self):
         with open("colors.txt", "w", encoding="UTF-8") as file:
             for i in self.color_frames:
                 file.write(i.selected_color + "\n")
-                print(i.selected_color)
+
+    def return_colors(self):
+        with open("colors.txt", "r", encoding="UTF-8") as file:
+            data = []
+            for line in file:
+                data.append(line.strip())
+
+            n = 0
+            for i in self.color_frames:
+                i.set_color(data[n])
+                n += 1
 
 if __name__ == "__main__":
     app = App()
